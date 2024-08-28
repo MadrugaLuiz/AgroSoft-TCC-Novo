@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.util.List;
 
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -21,21 +22,39 @@ public class Orcamento {
 
     @NonNull
     @ManyToMany
-    @JoinColumn(name = "cliente_id")
+    @JoinTable(
+            name = " orcamento_cliente",
+            joinColumns = @JoinColumn(name = "orcamento_id" ),
+            inverseJoinColumns = @JoinColumn(name = "cliente_id" )
+    )
     private Cliente cliente;
 
     @NonNull
     @ManyToMany
-    @JoinColumn(name = "vendedor_id")
+    @JoinTable(
+            name = "orcamento_vendedor",
+            joinColumns = @JoinColumn(name = "orcamento_id"),
+            inverseJoinColumns = @JoinColumn(name = "vendedor_id")
+    )
     private Vendedor vendedor;
 
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "produto")
+    @ManyToMany
+    @JoinTable(
+            name = "orcamento_produto",
+            joinColumns = @JoinColumn(name = "orcamento_id"),
+            inverseJoinColumns = @JoinColumn(name = "produto_id")
+    )
     private List<Produto> produtosOrcamento; //Verificar escrita código e seu relacionamento
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "servico")
+    @ManyToMany
+    @JoinTable(
+            name = "orcamento_servico",
+            joinColumns = @JoinColumn(name = "orcamento_id"),
+            inverseJoinColumns = @JoinColumn(name = "servico_id")
+    )
     private List<Servico> servicosOrcamento;//Verificar escrita código e seu relacionamento
 
     private Double total;
